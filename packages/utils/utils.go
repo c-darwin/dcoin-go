@@ -2739,6 +2739,15 @@ func JoinInts64(arr map[int64]int, sep string) string {
 	return strings.Join(arrStr, sep)
 }
 
+func JoinInt64Slice(arr []int64, sep string) string {
+	var arrStr []string
+	for i := range arr {
+		//Compiler thow an error if I try to convert int64 to str
+		arrStr = append(arrStr, IntToStr(i))
+	}
+	return strings.Join(arrStr, sep)
+}
+
 func TimeLeft(sec int64, lang map[string]string) string {
 	result := ""
 	if sec > 0 {
