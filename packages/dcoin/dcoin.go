@@ -145,7 +145,6 @@ func Start(dir string, thrustWindowLoder *window.Window) {
 		if err != nil {
 			IosLog("err:" + fmt.Sprintf("%s", utils.ErrInfo(err)))
 			log.Error("%v", utils.ErrInfo(err))
-			panic(err)
 			os.Exit(1)
 		}
 	}()
@@ -154,7 +153,6 @@ func Start(dir string, thrustWindowLoder *window.Window) {
 	if err != nil {
 		IosLog("err:" + fmt.Sprintf("%s", utils.ErrInfo(err)))
 		log.Error("%v", utils.ErrInfo(err))
-		panic(err)
 		os.Exit(1)
 	}
 	defer f.Close()
@@ -325,6 +323,13 @@ func Start(dir string, thrustWindowLoder *window.Window) {
 				schema_.S = s
 				schema_.PrintSchema()
 			}
+
+			if (utils.VersionOrdinal(*utils.OldVersion) < utils.VersionOrdinal("2.1.0a16")) {
+				err = utils.DB.ExecSql(`ALTER TABLE miners_data ADD COLUMN backup_pool_users text NOT NULL DEFAULT ''`)
+				if err != nil {
+					log.Error("%v", utils.ErrInfo(err))
+				}
+			}
 		}
 
 		err = utils.DB.Close()
@@ -382,7 +387,6 @@ func Start(dir string, thrustWindowLoder *window.Window) {
 		err = os.Mkdir(*utils.Dir+"/public", 0755)
 		if err != nil {
 			log.Error("%v", utils.ErrInfo(err))
-			panic(err)
 			os.Exit(1)
 		}
 	}
