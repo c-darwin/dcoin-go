@@ -120,7 +120,6 @@ func Ajax(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	controllerName := r.FormValue("controllerName")
 	log.Debug("controllerName=", controllerName)
-	fmt.Println( controllerName )
 	if (controllerName != "dcoinKey" ) {
 		w.Header().Set("Content-type", "text/html")
 	}
