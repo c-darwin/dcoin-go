@@ -15,7 +15,8 @@ func Ajax(w http.ResponseWriter, r *http.Request) {
 		}
 	}()
 	log.Debug("Ajax")
-	w.Header().Set("Content-type", "text/html")
+
+//	w.Header().Set("Content-type", "text/html")
 
 	sess, err := globalSessions.SessionStart(w, r)
 	if err != nil {
@@ -119,7 +120,10 @@ func Ajax(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	controllerName := r.FormValue("controllerName")
 	log.Debug("controllerName=", controllerName)
-
+	fmt.Println( controllerName )
+	if (controllerName != "dcoinKey" ) {
+		w.Header().Set("Content-type", "text/html")
+	}
 	html := ""
 
 	//w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -146,6 +150,7 @@ func Ajax(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	w.Write([]byte(html))
-
+	if (controllerName != "dcoinKey" ) {
+		w.Write([]byte(html))
+	}
 }
